@@ -1,4 +1,5 @@
 using apbdkol2.Data;
+using apbdkol2.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Apbdkol2Context>(
     options => options.UseSqlServer("Name=ConnectionStrings:Default"));
+builder.Services.AddScoped<IDbService, DbService>();
 
 var app = builder.Build();
 
