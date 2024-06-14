@@ -57,5 +57,62 @@ namespace apbdkol2.Controllers
 
             return Ok(characterDto);
         }
+        
+        [HttpPost("{characterId}/backpacks")]
+        public async Task<IActionResult> AddItemsToCharacterBackpack(int characterId, [FromBody] List<int> itemIds)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            var character = await _context.Characters.FindAsync(characterId);
+            if (character == null)
+            {
+                return NotFound("Character doesn't exist");
+            }
+
+            var items = await _context.Items.Where(i => itemIds.Contains(i.Id)).ToListAsync();
+            if (items.Count != itemIds.Count)
+            {
+                return NotFound("One or more items do not exist");
+            }
+
+            var totalWeight = items.Sum(i => i.Weight);
+            if (character.CurrentWeight + totalWeight > character.MaxWeight)
+            {
+                return BadRequest("Character cannot carry that much weight");
+            }
+
+            foreach (var i in items)
+            {
+                var backpackItem = await _context.Backpacks
+                    .FirstOrDefaultAsync(b => b.CharacterId == characterId && b.ItemId == i.Id);
+                
+                if (backpackItem == null)
+                {
+                    _context.Backpacks.Add(new Backpack
+                    {
+                        CharacterId = characterId,
+                        ItemId = i.Id,
+                        Amount = 1
+                    });
+                }
+                else
+                {
+                    backpackItem.Amount++;
+                }
+            }
+
+            character.CurrentWeight += totalWeight;
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+
+            var result = items.Select(item => new 
+            {
+                amount = 1,
+                itemId = item.Id,
+                characterId = characterId
+            }).ToList();
+
+            return Ok(result);
+        }
     }
 }
