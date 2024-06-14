@@ -12,7 +12,7 @@ using apbdkol2.Data;
 namespace apbdkol2.Migrations
 {
     [DbContext(typeof(Apbdkol2Context))]
-    [Migration("20240614121331_Init")]
+    [Migration("20240614125537_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -180,6 +180,12 @@ namespace apbdkol2.Migrations
                             Id = 3,
                             Name = "Item3",
                             Weight = 12
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Item4",
+                            Weight = 100
                         });
                 });
 

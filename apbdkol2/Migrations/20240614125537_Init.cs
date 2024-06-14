@@ -122,7 +122,8 @@ namespace apbdkol2.Migrations
                 {
                     { 1, "Item1", 10 },
                     { 2, "Item2", 11 },
-                    { 3, "Item3", 12 }
+                    { 3, "Item3", 12 },
+                    { 4, "Item4", 100 }
                 });
 
             migrationBuilder.InsertData(

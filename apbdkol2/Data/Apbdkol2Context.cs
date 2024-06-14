@@ -29,7 +29,8 @@ public partial class Apbdkol2Context : DbContext
         modelBuilder.Entity<Item>().HasData(
             new Item { Id = 1, Name = "Item1", Weight = 10 },
             new Item { Id = 2, Name = "Item2", Weight = 11 },
-            new Item { Id = 3, Name = "Item3", Weight = 12 }
+            new Item { Id = 3, Name = "Item3", Weight = 12 },
+            new Item { Id = 4, Name = "Item4", Weight = 100 }
         );
 
         modelBuilder.Entity<Character>().HasData(

@@ -177,6 +177,12 @@ namespace apbdkol2.Migrations
                             Id = 3,
                             Name = "Item3",
                             Weight = 12
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Item4",
+                            Weight = 100
                         });
                 });
 
